@@ -17,8 +17,9 @@ namespace ChannelPointsSFX
         private static TwitchPubSub client;
         private static Dictionary<string, string> bindings = new Dictionary<string, string>();
         private static MediaPlayer thePlayer;
-        private int volumeLevel = 50; 
+        private int volumeLevel, savedVolumeLevel; 
         private int boxSelection = 0;
+        private static System.Timers.Timer volumeTimer;
 
         public frmMain()
         {
@@ -27,6 +28,16 @@ namespace ChannelPointsSFX
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            if(!File.Exists("volume.txt"))
+            {
+                File.WriteAllText("volume.txt", "50");
+            }
+            volumeTimer = new System.Timers.Timer(10000);
+            volumeTimer.Elapsed += OnVolumeSaveTimer;
+            volumeTimer.AutoReset = true;
+            volumeTimer.Enabled = true;
+
+            volumeLevel = savedVolumeLevel = Convert.ToInt32(File.ReadAllText("volume.txt"));
             
             client = new TwitchPubSub();
 
@@ -54,6 +65,15 @@ namespace ChannelPointsSFX
             trkVolume.Value = volumeLevel;
         }
 
+        private void OnVolumeSaveTimer(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            if (savedVolumeLevel != volumeLevel)
+            {
+                File.WriteAllText("volume.txt", volumeLevel.ToString());
+                savedVolumeLevel = Convert.ToInt32(File.ReadAllText("volume.txt"));
+            }
+        }
+
         private static void onPubSubServiceConnected(object sender, EventArgs e)
         {
             // SendTopics accepts an oauth optionally, which is necessary for some topics
@@ -75,7 +95,7 @@ namespace ChannelPointsSFX
             Debug.WriteLine("\tUser:" + e.DisplayName);
             Debug.WriteLine("----------------");
 #endif
-            if(bindings.ContainsKey(e.RewardTitle))
+            if(bindings.ContainsKey(e.RewardTitle) && e.Status == "UNFULFILLED")
             {
                 string output;
                 bindings.TryGetValue(e.RewardTitle, out output);
