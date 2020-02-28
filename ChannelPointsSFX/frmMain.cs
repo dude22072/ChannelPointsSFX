@@ -19,7 +19,6 @@ namespace ChannelPointsSFX
         private static MediaPlayer thePlayer;
         private int volumeLevel, savedVolumeLevel; 
         private int boxSelection = 0;
-        private static System.Timers.Timer volumeTimer;
 
         public frmMain()
         {
@@ -28,16 +27,7 @@ namespace ChannelPointsSFX
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            if(!File.Exists("volume.txt"))
-            {
-                File.WriteAllText("volume.txt", "50");
-            }
-            volumeTimer = new System.Timers.Timer(10000);
-            volumeTimer.Elapsed += OnVolumeSaveTimer;
-            volumeTimer.AutoReset = true;
-            volumeTimer.Enabled = true;
-
-            volumeLevel = savedVolumeLevel = Convert.ToInt32(File.ReadAllText("volume.txt"));
+            volumeLevel = savedVolumeLevel = Convert.ToInt32(Properties.Settings.Default.savedVolumeLevel);
             
             client = new TwitchPubSub();
 
@@ -45,7 +35,14 @@ namespace ChannelPointsSFX
             client.OnListenResponse += onListenResponse;
             client.OnRewardRedeemed += OnRewardRedeemed;
 
-            client.ListenToRewards("");
+            //client.ListenToRewards("110068325");
+            if (Properties.Settings.Default.savedChannelID == "")
+            {
+                Properties.Settings.Default.savedChannelID = Prompt.ShowDialog("Enter your Twitch ChannelID\r\nTHIS IS NOT YOUR USERNAME. Please ask dude22072 if you don't know what this is.", "Enter Channel ID");
+                if (Properties.Settings.Default.savedChannelID == "") { this.Close(); }
+                Properties.Settings.Default.Save();
+            }
+            client.ListenToRewards(Properties.Settings.Default.savedChannelID);
 
             client.Connect();
 
@@ -65,15 +62,6 @@ namespace ChannelPointsSFX
             trkVolume.Value = volumeLevel;
         }
 
-        private void OnVolumeSaveTimer(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            if (savedVolumeLevel != volumeLevel)
-            {
-                File.WriteAllText("volume.txt", volumeLevel.ToString());
-                savedVolumeLevel = Convert.ToInt32(File.ReadAllText("volume.txt"));
-            }
-        }
-
         private static void onPubSubServiceConnected(object sender, EventArgs e)
         {
             // SendTopics accepts an oauth optionally, which is necessary for some topics
@@ -90,12 +78,13 @@ namespace ChannelPointsSFX
         {
 #if DEBUG
             Debug.WriteLine("Reward Redeemed:");
-            Debug.WriteLine("\tTitle:"+e.RewardTitle);
-            Debug.WriteLine("\tPrompt:"+e.RewardPrompt);
-            Debug.WriteLine("\tUser:" + e.DisplayName);
+            Debug.WriteLine("\tTitle:"+e.RewardTitle+"|");
+            Debug.WriteLine("\tPrompt:"+e.RewardPrompt+"|");
+            Debug.WriteLine("\tUser:" + e.DisplayName+"|");
+            Debug.WriteLine("\tStatus:" + e.Status+"|");
             Debug.WriteLine("----------------");
 #endif
-            if(bindings.ContainsKey(e.RewardTitle) && e.Status == "UNFULFILLED")
+            if(bindings.ContainsKey(e.RewardTitle) && e.Status != "ACTION_TAKEN")
             {
                 string output;
                 bindings.TryGetValue(e.RewardTitle, out output);
@@ -110,9 +99,15 @@ namespace ChannelPointsSFX
         {
             this.volumeLevel = trkVolume.Value;
             txtVolume.Text = this.volumeLevel.ToString();
-            if (thePlayer != null)
+        }
+
+        private void TrkVolume_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (savedVolumeLevel != volumeLevel)
             {
-                this.SetVolume(this.volumeLevel);
+                Properties.Settings.Default.savedVolumeLevel = volumeLevel.ToString();
+                Properties.Settings.Default.Save();
+                savedVolumeLevel = Convert.ToInt32(Properties.Settings.Default.savedVolumeLevel);
             }
         }
 

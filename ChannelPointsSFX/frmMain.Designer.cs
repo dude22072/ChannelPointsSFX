@@ -39,6 +39,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             this.trkVolume.Size = new System.Drawing.Size(271, 45);
             this.trkVolume.TabIndex = 0;
             this.trkVolume.Scroll += new System.EventHandler(this.trkVolume_Scroll);
+            this.trkVolume.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TrkVolume_MouseUp);
             // 
             // txtVolume
             // 
@@ -157,11 +159,21 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 203);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(176, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "-- Early Edition -- Do Not Distribute --";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 228);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnAdd);
@@ -183,7 +195,6 @@
             this.PerformLayout();
 
         }
-
         #endregion
 
         private System.Windows.Forms.TrackBar trkVolume;
@@ -197,6 +208,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Label label1;
     }
 }
 
