@@ -39,13 +39,14 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnTest = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblNOTICE = new System.Windows.Forms.Label();
+            this.btnStopAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).BeginInit();
             this.SuspendLayout();
             // 
             // trkVolume
             // 
-            this.trkVolume.Location = new System.Drawing.Point(12, 171);
+            this.trkVolume.Location = new System.Drawing.Point(12, 200);
             this.trkVolume.Maximum = 100;
             this.trkVolume.Name = "trkVolume";
             this.trkVolume.Size = new System.Drawing.Size(271, 45);
@@ -55,7 +56,7 @@
             // 
             // txtVolume
             // 
-            this.txtVolume.Location = new System.Drawing.Point(289, 171);
+            this.txtVolume.Location = new System.Drawing.Point(289, 200);
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.ReadOnly = true;
             this.txtVolume.Size = new System.Drawing.Size(28, 20);
@@ -65,7 +66,7 @@
             // lblVolume
             // 
             this.lblVolume.AutoSize = true;
-            this.lblVolume.Location = new System.Drawing.Point(12, 155);
+            this.lblVolume.Location = new System.Drawing.Point(12, 184);
             this.lblVolume.Name = "lblVolume";
             this.lblVolume.Size = new System.Drawing.Size(42, 13);
             this.lblVolume.TabIndex = 2;
@@ -74,7 +75,7 @@
             // lblLine
             // 
             this.lblLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblLine.Location = new System.Drawing.Point(60, 162);
+            this.lblLine.Location = new System.Drawing.Point(60, 191);
             this.lblLine.Name = "lblLine";
             this.lblLine.Size = new System.Drawing.Size(257, 2);
             this.lblLine.TabIndex = 3;
@@ -159,21 +160,33 @@
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
-            // label1
+            // lblNOTICE
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(73, 203);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "-- Early Edition -- Do Not Distribute --";
+            this.lblNOTICE.AutoSize = true;
+            this.lblNOTICE.Location = new System.Drawing.Point(75, 232);
+            this.lblNOTICE.Name = "lblNOTICE";
+            this.lblNOTICE.Size = new System.Drawing.Size(176, 13);
+            this.lblNOTICE.TabIndex = 11;
+            this.lblNOTICE.Text = "-- Early Edition -- Do Not Distribure --";
+            // 
+            // btnStopAll
+            // 
+            this.btnStopAll.ForeColor = System.Drawing.Color.Red;
+            this.btnStopAll.Location = new System.Drawing.Point(15, 143);
+            this.btnStopAll.Name = "btnStopAll";
+            this.btnStopAll.Size = new System.Drawing.Size(275, 23);
+            this.btnStopAll.TabIndex = 12;
+            this.btnStopAll.Text = "Emergency Stop";
+            this.btnStopAll.UseVisualStyleBackColor = true;
+            this.btnStopAll.Click += new System.EventHandler(this.btnStopAll_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 228);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(325, 257);
+            this.Controls.Add(this.btnStopAll);
+            this.Controls.Add(this.lblNOTICE);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnAdd);
@@ -185,11 +198,12 @@
             this.Controls.Add(this.lblVolume);
             this.Controls.Add(this.txtVolume);
             this.Controls.Add(this.trkVolume);
-            this.MaximumSize = new System.Drawing.Size(341, 267);
-            this.MinimumSize = new System.Drawing.Size(341, 267);
+            this.MaximumSize = new System.Drawing.Size(1000, 296);
+            this.MinimumSize = new System.Drawing.Size(341, 296);
             this.Name = "frmMain";
             this.Text = "Dude22072\'s Channel Points SFX Program";
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -208,7 +222,8 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnRemove;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblNOTICE;
+        private System.Windows.Forms.Button btnStopAll;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable IDE1006 // Naming Styles
+using System;
 using System.Windows.Forms;
 using TwitchLib.PubSub;
 using TwitchLib.PubSub.Events;
@@ -15,8 +16,10 @@ namespace ChannelPointsSFX
     public partial class frmMain : Form
     {
         private static TwitchPubSub client;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "Needs to be modified at runtime.")]
         private static Dictionary<string, string> bindings = new Dictionary<string, string>();
         private static MediaPlayer thePlayer;
+        private static List<MediaPlayer> allPlayers = new List<MediaPlayer>();
         private int volumeLevel, savedVolumeLevel; 
         private int boxSelection = 0;
 
@@ -35,11 +38,12 @@ namespace ChannelPointsSFX
             client.OnListenResponse += onListenResponse;
             client.OnRewardRedeemed += OnRewardRedeemed;
 
-            //client.ListenToRewards("110068325");
+            
+            if (File.Exists("resetid.txt")) { Properties.Settings.Default.savedChannelID = ""; File.Delete("resetid.txt"); }
             if (Properties.Settings.Default.savedChannelID == "")
             {
-                Properties.Settings.Default.savedChannelID = Prompt.ShowDialog("Enter your Twitch ChannelID\r\nTHIS IS NOT YOUR USERNAME. Please ask dude22072 if you don't know what this is.", "Enter Channel ID");
-                if (Properties.Settings.Default.savedChannelID == "") { this.Close(); }
+                Properties.Settings.Default.savedChannelID = Prompt.ShowDialog("Please enter your Twitch ChannelID. (THIS IS NOT YOUR USERNAME)\r\nGo to https://dude22072.com/twitchchannelid.php if you don't know what this is.", "Enter Channel ID");
+                if (Properties.Settings.Default.savedChannelID == "") { this.Close(); return; }
                 Properties.Settings.Default.Save();
             }
             client.ListenToRewards(Properties.Settings.Default.savedChannelID);
@@ -62,18 +66,43 @@ namespace ChannelPointsSFX
             trkVolume.Value = volumeLevel;
         }
 
+        /// <summary>
+        /// Keeps the layout consistent on resize.
+        /// </summary>
+        private void frmMain_SizeChanged(object sender, EventArgs e)
+        {
+            btnUp.Left = this.Width - 45;
+            btnDown.Left = this.Width - 45;
+            txtVolume.Left = this.Width - 52;
+            trkVolume.Width = txtVolume.Left - 18;
+            lblLine.Width = this.Width - 84;
+            int listBoxArea = btnUp.Left - lstbxSoundsRewards.Left;
+            lstbxSoundsRewards.Width = listBoxArea / 2 - 6;
+            lstbxSoundsPaths.Left = (lstbxSoundsRewards.Left + lstbxSoundsRewards.Width);
+            lstbxSoundsPaths.Width = listBoxArea / 2 - 3;
+            btnRemove.Left = (lstbxSoundsPaths.Left + lstbxSoundsPaths.Width) - btnRemove.Width;
+            btnTest.Left = lstbxSoundsPaths.Left - 38;
+            btnStopAll.Width = btnRemove.Left + btnRemove.Width - btnStopAll.Left;
+            lblNOTICE.Left = lstbxSoundsPaths.Left - 76;
+        }
+
         private static void onPubSubServiceConnected(object sender, EventArgs e)
         {
-            // SendTopics accepts an oauth optionally, which is necessary for some topics
             client.SendTopics();
         }
 
+        /// <summary>
+        /// Throws an exception if we failed to connect to the PubSub.
+        /// </summary>
         private static void onListenResponse(object sender, OnListenResponseArgs e)
         {
             if (!e.Successful)
                 throw new Exception($"Failed to listen! Response: {e.Response}");
         }
 
+        /// <summary>
+        /// Checks the bindings array and plays the appropriate sound file when a Channel Points reward is redeemed.
+        /// </summary>
         private void OnRewardRedeemed(object sender, OnRewardRedeemedArgs e)
         {
 #if DEBUG
@@ -86,21 +115,26 @@ namespace ChannelPointsSFX
 #endif
             if(bindings.ContainsKey(e.RewardTitle) && e.Status != "ACTION_TAKEN")
             {
-                string output;
-                bindings.TryGetValue(e.RewardTitle, out output);
+                bindings.TryGetValue(e.RewardTitle, out string output);
 #if DEBUG
                 Debug.WriteLine(output);
 #endif
-                this.PlaySound(output);
+                PlaySound(output);
             }
         }
 
+        /// <summary>
+        /// Updates the volume level as a user moves the trackbar.
+        /// </summary>
         private void trkVolume_Scroll(object sender, EventArgs e)
         {
             this.volumeLevel = trkVolume.Value;
             txtVolume.Text = this.volumeLevel.ToString();
         }
 
+        /// <summary>
+        /// Saves the current volume level once the user unclicks the Trackbar.
+        /// </summary>
         private void TrkVolume_MouseUp(object sender, MouseEventArgs e)
         {
             if (savedVolumeLevel != volumeLevel)
@@ -111,13 +145,20 @@ namespace ChannelPointsSFX
             }
         }
 
-        // `volume` is assumed to be between 0 and 100.
+        /// <summary>
+        /// Sets the volume level for the MediaPlayer object.
+        /// </summary>
+        /// <param name="volume">Assumed to be between 0 and 100.</param>
         public void SetVolume(int volume)
         {
             // MediaPlayer volume is a float value between 0 and 1.
             thePlayer.Volume = volume / 100.0f;
         }
 
+        /// <summary>
+        /// Plays a sound file from a path.
+        /// </summary>
+        /// <param name="filename">The path to the sound file to play.</param>
         public void PlaySound(string filename)
         {
 #if DEBUG
@@ -127,18 +168,27 @@ namespace ChannelPointsSFX
             thePlayer.Open(new Uri(filename));
             this.SetVolume(this.volumeLevel);
             thePlayer.MediaEnded += ThePlayer_MediaEnded;
+            btnStopAll.Enabled = true;
+            allPlayers.Add(thePlayer);
             thePlayer.Play();
             
         }
 
+        /// <summary>
+        /// Closes the media file once it's done playing.
+        /// </summary>
         private void ThePlayer_MediaEnded(object sender, EventArgs e)
         {
 #if DEBUG
             Debug.WriteLine("Sound playing ended.");
 #endif
             thePlayer.Close();
+            allPlayers.Remove((MediaPlayer)sender);
         }
 
+        /// <summary>
+        /// Reloads the bindings array into the ListBoxes and saves the bindings to file if nessecary.
+        /// </summary>
         private void reloadListItems()
         {
             lstbxSoundsRewards.Items.Clear();
@@ -172,6 +222,9 @@ namespace ChannelPointsSFX
             }
         }
 
+        /// <summary>
+        /// Saves the bindings array to the settings.txt file.
+        /// </summary>
         private void saveBindings()
         {
             String buildString = "";
@@ -182,6 +235,9 @@ namespace ChannelPointsSFX
             File.WriteAllText("settings.txt", buildString);
         }
 
+        /// <summary>
+        /// Decreases the boxSelection by one and highlights the appropriate items in the list boxes.
+        /// </summary>
         private void btnUp_Click(object sender, EventArgs e)
         {
             boxSelection--;
@@ -190,6 +246,9 @@ namespace ChannelPointsSFX
             lstbxSoundsPaths.SelectedIndex = boxSelection;
         }
 
+        /// <summary>
+        /// Increases the boxSelection by one and highlights the appropriate items in the list boxes.
+        /// </summary>
         private void btnDown_Click(object sender, EventArgs e)
         {
             boxSelection++;
@@ -198,29 +257,52 @@ namespace ChannelPointsSFX
             lstbxSoundsPaths.SelectedIndex = boxSelection;
         }
 
+        /// <summary>
+        /// Prevents users from clicking on a listbox item.
+        /// </summary>
         private void lstbxSoundsRewards_SelectedIndexChanged(object sender, EventArgs e)
         {
             lstbxSoundsRewards.SelectedIndex = boxSelection;
         }
 
+        /// <summary>
+        /// Prevents users from clicking on a listbox item.
+        /// </summary>
         private void lstbxSoundsPaths_SelectedIndexChanged(object sender, EventArgs e)
         {
             lstbxSoundsPaths.SelectedIndex = boxSelection;
         }
 
+        /// <summary>
+        /// Removes the selected item from the bingings array and reloads the listboxes.
+        /// </summary>
         private void btnRemove_Click(object sender, EventArgs e)
         {
             bindings.Remove(lstbxSoundsRewards.SelectedItem.ToString());
             reloadListItems();
         }
 
+        /// <summary>
+        /// Tests the currently selected listbox item as if a Reward had been redeemed.
+        /// </summary>
         private void btnTest_Click(object sender, EventArgs e)
         {
-            string output;
-            bindings.TryGetValue(lstbxSoundsRewards.SelectedItem.ToString(), out output);
+            bindings.TryGetValue(lstbxSoundsRewards.SelectedItem.ToString(), out string output);
             PlaySound(output);
         }
 
+        private void btnStopAll_Click(object sender, EventArgs e)
+        {
+            foreach(MediaPlayer player in allPlayers)
+            {
+                player.Stop();
+                player.Close();
+            }
+        }
+
+        /// <summary>
+        /// Prompts user for the Channel Points Reward name and then opens an OpenFileDialog to select the file.
+        /// </summary>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string rewardName = Prompt.ShowDialog("Enter the twitch Channel Points reward name EXACTLY as it is on twitch.", "Channel Reward Name");
@@ -263,7 +345,16 @@ namespace ChannelPointsSFX
             prompt.Controls.Add(textLabel);
             prompt.AcceptButton = confirmation;
 
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+            if (prompt.ShowDialog() == DialogResult.OK) {
+                prompt.Dispose();
+                return textBox.Text;
+            } 
+            else
+            {
+                prompt.Dispose();
+                return "";
+            }
+            
         }
     }
 }
