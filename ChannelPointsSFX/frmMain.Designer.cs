@@ -168,6 +168,7 @@
             this.lblNOTICE.Size = new System.Drawing.Size(176, 13);
             this.lblNOTICE.TabIndex = 11;
             this.lblNOTICE.Text = "-- Early Edition -- Do Not Distribure --";
+            this.lblNOTICE.Visible = false;
             // 
             // btnStopAll
             // 

@@ -287,6 +287,7 @@ namespace ChannelPointsSFX
         /// </summary>
         private void btnTest_Click(object sender, EventArgs e)
         {
+            if(lstbxSoundsRewards.SelectedItem == null) return;
             bindings.TryGetValue(lstbxSoundsRewards.SelectedItem.ToString(), out string output);
             PlaySound(output);
         }
