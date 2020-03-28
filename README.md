@@ -12,7 +12,7 @@ Right away you'll notice the volume bar along the bottom. Changing this will cha
 Above the volume slider you will see the "Emercency Stop" button. This button (should) stop all currently playing sounds. Useful for when multiple users decide to spam a sound all at the same time and the overlap gets to be too much.  
 And yet above that you will see the "Add Sound" button. When clicked, it will first give you a dialog asking to evter the name of the channel point reward EXACTLY as it appears on twitch, as this is what it uses to know when the reward has been redeemed. It will then show a file select dialog to select a sound file. The program will play any format that works in the default windows audio player.  
   
-After you've added a few sounds a few more buttons will become available to you:
+After you've added a few sounds a few more buttons will become available to you:  
 ![Main program window with two items](https://i.imgur.com/1EuKBB3.png)  
 The buttons along the right side of the list are for moving between the items on the list.  
 The "Test Sound" button will play the currently selected sound as if a reward had been redeemed. Useful for making sure you've selected the right file and testing how loud it is at your current volume level.  
