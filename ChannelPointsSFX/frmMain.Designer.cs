@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.trkVolume = new System.Windows.Forms.TrackBar();
             this.txtVolume = new System.Windows.Forms.TextBox();
             this.lblVolume = new System.Windows.Forms.Label();
@@ -43,6 +45,12 @@
             this.btnStopAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).BeginInit();
             this.SuspendLayout();
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.Text = "Dude22072\'s Channel Points SFX Program";
+            this.trayIcon.Visible = true;
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             // 
             // trkVolume
             // 
@@ -162,12 +170,12 @@
             // 
             // lblNOTICE
             // 
-            this.lblNOTICE.AutoSize = true;
-            this.lblNOTICE.Location = new System.Drawing.Point(75, 232);
+            this.lblNOTICE.Location = new System.Drawing.Point(12, 235);
             this.lblNOTICE.Name = "lblNOTICE";
-            this.lblNOTICE.Size = new System.Drawing.Size(176, 13);
+            this.lblNOTICE.Size = new System.Drawing.Size(305, 13);
             this.lblNOTICE.TabIndex = 11;
-            this.lblNOTICE.Text = "-- Early Edition -- Do Not Distribure --";
+            this.lblNOTICE.Text = "Update available on GitHub!";
+            this.lblNOTICE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblNOTICE.Visible = false;
             // 
             // btnStopAll
@@ -203,6 +211,7 @@
             this.MinimumSize = new System.Drawing.Size(341, 296);
             this.Name = "frmMain";
             this.Text = "Dude22072\'s Channel Points SFX Program";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_OnClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).EndInit();
@@ -212,6 +221,7 @@
         }
         #endregion
 
+        public System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.TrackBar trkVolume;
         private System.Windows.Forms.TextBox txtVolume;
         private System.Windows.Forms.Label lblVolume;

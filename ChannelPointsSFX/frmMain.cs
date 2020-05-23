@@ -64,6 +64,33 @@ namespace ChannelPointsSFX
 
             txtVolume.Text = volumeLevel.ToString();
             trkVolume.Value = volumeLevel;
+
+            trayIcon.BalloonTipText = "Running in tray. Double click tray icon to maximize.";
+            trayIcon.BalloonTipTitle = "Dude22072\'s Channel Points SFX Program";
+            trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+            trayIcon.Icon = this.Icon;
+
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                if (typeof(frmMain).Assembly.GetName().Version.CompareTo(new Version(client.DownloadString("https://dude22072.com/ChannelPointsSFX-version.txt"))) < 0)
+                {
+                    lblNOTICE.Visible = true;
+                }
+            }
+        }
+
+        private void frmMain_OnClosing(object sender, FormClosingEventArgs e)
+        {
+            trayIcon.Visible = false;
+        }
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int ShowWindow(IntPtr hWnd, uint Msg);
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            ShowWindow(this.Handle, 0x09);
         }
 
         /// <summary>
@@ -71,6 +98,17 @@ namespace ChannelPointsSFX
         /// </summary>
         private void frmMain_SizeChanged(object sender, EventArgs e)
         {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                trayIcon.Visible = true;
+                trayIcon.ShowBalloonTip(250);
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                trayIcon.Visible = false;
+            }
+
             btnUp.Left = this.Width - 45;
             btnDown.Left = this.Width - 45;
             txtVolume.Left = this.Width - 52;
