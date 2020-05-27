@@ -46,5 +46,17 @@ namespace ChannelPointsSFX.Properties {
                 this["savedChannelID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool minimizeToTray {
+            get {
+                return ((bool)(this["minimizeToTray"]));
+            }
+            set {
+                this["minimizeToTray"] = value;
+            }
+        }
     }
 }

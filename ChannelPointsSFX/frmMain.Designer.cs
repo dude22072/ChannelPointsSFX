@@ -43,6 +43,8 @@
             this.btnRemove = new System.Windows.Forms.Button();
             this.lblNOTICE = new System.Windows.Forms.Label();
             this.btnStopAll = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,6 +147,8 @@
             this.btnAdd.Size = new System.Drawing.Size(80, 23);
             this.btnAdd.TabIndex = 8;
             this.btnAdd.Text = "Add Sound";
+            this.toolTip1.SetToolTip(this.btnAdd, "Add a new sound to the list.\r\nFirsts asks for the reward name then opens a file s" +
+        "elect dialog.");
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -155,6 +159,7 @@
             this.btnTest.Size = new System.Drawing.Size(80, 23);
             this.btnTest.TabIndex = 9;
             this.btnTest.Text = "Test Sound";
+            this.toolTip1.SetToolTip(this.btnTest, "Tests the sound as if someone had redemed the reward.");
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
@@ -165,6 +170,7 @@
             this.btnRemove.Size = new System.Drawing.Size(80, 23);
             this.btnRemove.TabIndex = 10;
             this.btnRemove.Text = "Delete Sound";
+            this.toolTip1.SetToolTip(this.btnRemove, "Deletes the currently highlighted sound.");
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
@@ -186,14 +192,27 @@
             this.btnStopAll.Size = new System.Drawing.Size(275, 23);
             this.btnStopAll.TabIndex = 12;
             this.btnStopAll.Text = "Emergency Stop";
+            this.toolTip1.SetToolTip(this.btnStopAll, "Stops all playing sounds.");
             this.btnStopAll.UseVisualStyleBackColor = true;
             this.btnStopAll.Click += new System.EventHandler(this.btnStopAll_Click);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Location = new System.Drawing.Point(296, 230);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(21, 23);
+            this.btnSettings.TabIndex = 13;
+            this.btnSettings.Text = "⚙️";
+            this.toolTip1.SetToolTip(this.btnSettings, "Opens the settings dialog.");
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 257);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnStopAll);
             this.Controls.Add(this.lblNOTICE);
             this.Controls.Add(this.btnRemove);
@@ -235,6 +254,8 @@
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Label lblNOTICE;
         private System.Windows.Forms.Button btnStopAll;
+        private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

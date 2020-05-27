@@ -72,9 +72,15 @@ namespace ChannelPointsSFX
 
             using (System.Net.WebClient client = new System.Net.WebClient())
             {
-                if (typeof(frmMain).Assembly.GetName().Version.CompareTo(new Version(client.DownloadString("https://dude22072.com/ChannelPointsSFX-version.txt"))) < 0)
+#if DEBUG
+                string urlPrefix = "https://dude22072.com/testing/";
+#else
+                string urlPrefix = "https://dude22072.com/";
+#endif
+                if (typeof(frmMain).Assembly.GetName().Version.CompareTo(new Version(client.DownloadString(urlPrefix + "ChannelPointsSFX-version.txt"))) < 0)
                 {
                     lblNOTICE.Visible = true;
+                    toolTip1.SetToolTip(lblNOTICE, client.DownloadString(urlPrefix + "ChannelPointsSFX-changelog.txt"));
                 }
             }
         }
@@ -100,9 +106,12 @@ namespace ChannelPointsSFX
         {
             if (FormWindowState.Minimized == this.WindowState)
             {
-                trayIcon.Visible = true;
-                trayIcon.ShowBalloonTip(250);
-                this.Hide();
+                if (Properties.Settings.Default.minimizeToTray == true)
+                {
+                    trayIcon.Visible = true;
+                    trayIcon.ShowBalloonTip(250);
+                    this.Hide();
+                }
             }
             else if (FormWindowState.Normal == this.WindowState)
             {
@@ -121,7 +130,8 @@ namespace ChannelPointsSFX
             btnRemove.Left = (lstbxSoundsPaths.Left + lstbxSoundsPaths.Width) - btnRemove.Width;
             btnTest.Left = lstbxSoundsPaths.Left - 38;
             btnStopAll.Width = btnRemove.Left + btnRemove.Width - btnStopAll.Left;
-            lblNOTICE.Left = lstbxSoundsPaths.Left - 76;
+            lblNOTICE.Width = this.Width - 36;
+            btnSettings.Left = this.Width - 45;
         }
 
         private static void onPubSubServiceConnected(object sender, EventArgs e)
@@ -337,6 +347,19 @@ namespace ChannelPointsSFX
                 player.Stop();
                 player.Close();
             }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            frmOptions optionsForm = new frmOptions();
+            optionsForm.enSetBut += new ReenableSettingsButton(oFrmOptions_enSetBut);
+            optionsForm.Show();
+            btnSettings.Enabled = false;
+        }
+
+        void oFrmOptions_enSetBut()
+        {
+            btnSettings.Enabled = true;
         }
 
         /// <summary>
