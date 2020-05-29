@@ -132,6 +132,7 @@ namespace ChannelPointsSFX
             btnStopAll.Width = btnRemove.Left + btnRemove.Width - btnStopAll.Left;
             lblNOTICE.Width = this.Width - 36;
             btnSettings.Left = this.Width - 45;
+            btnEditSound.Left = btnRemove.Left + btnRemove.Width - btnEditSound.Width;
         }
 
         private static void onPubSubServiceConnected(object sender, EventArgs e)
@@ -353,6 +354,8 @@ namespace ChannelPointsSFX
         {
             frmOptions optionsForm = new frmOptions();
             optionsForm.enSetBut += new ReenableSettingsButton(oFrmOptions_enSetBut);
+            optionsForm.StartPosition = FormStartPosition.Manual;
+            optionsForm.Location = this.Location;
             optionsForm.Show();
             btnSettings.Enabled = false;
         }
@@ -360,6 +363,38 @@ namespace ChannelPointsSFX
         void oFrmOptions_enSetBut()
         {
             btnSettings.Enabled = true;
+        }
+
+        private void btnEditTitle_Click(object sender, EventArgs e)
+        {
+            if (lstbxSoundsRewards.SelectedItem == null) return;
+            bindings.TryGetValue(lstbxSoundsRewards.SelectedItem.ToString(), out string output);
+
+            string rewardName = Prompt.ShowDialog("Enter the twitch Channel Points reward name EXACTLY as it is on twitch.", "Channel Reward Name");
+
+            bindings.Remove(lstbxSoundsRewards.SelectedItem.ToString());
+            bindings[rewardName] = output;
+            reloadListItems();
+        }
+
+        private void btnEditSound_Click(object sender, EventArgs e)
+        {
+            if (lstbxSoundsRewards.SelectedItem == null) return;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "All files (*.*)|*.*";
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    string filePath = openFileDialog.FileName;
+                    bindings[lstbxSoundsRewards.SelectedItem.ToString()] = filePath;
+                    reloadListItems();
+                }
+            }
         }
 
         /// <summary>

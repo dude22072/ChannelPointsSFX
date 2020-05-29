@@ -45,6 +45,8 @@
             this.btnStopAll = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnEditTitle = new System.Windows.Forms.Button();
+            this.btnEditSound = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trkVolume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +58,7 @@
             // 
             // trkVolume
             // 
-            this.trkVolume.Location = new System.Drawing.Point(12, 200);
+            this.trkVolume.Location = new System.Drawing.Point(12, 230);
             this.trkVolume.Maximum = 100;
             this.trkVolume.Name = "trkVolume";
             this.trkVolume.Size = new System.Drawing.Size(271, 45);
@@ -66,7 +68,7 @@
             // 
             // txtVolume
             // 
-            this.txtVolume.Location = new System.Drawing.Point(289, 200);
+            this.txtVolume.Location = new System.Drawing.Point(289, 230);
             this.txtVolume.Name = "txtVolume";
             this.txtVolume.ReadOnly = true;
             this.txtVolume.Size = new System.Drawing.Size(28, 20);
@@ -76,7 +78,7 @@
             // lblVolume
             // 
             this.lblVolume.AutoSize = true;
-            this.lblVolume.Location = new System.Drawing.Point(12, 184);
+            this.lblVolume.Location = new System.Drawing.Point(12, 214);
             this.lblVolume.Name = "lblVolume";
             this.lblVolume.Size = new System.Drawing.Size(42, 13);
             this.lblVolume.TabIndex = 2;
@@ -85,7 +87,7 @@
             // lblLine
             // 
             this.lblLine.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblLine.Location = new System.Drawing.Point(60, 191);
+            this.lblLine.Location = new System.Drawing.Point(60, 221);
             this.lblLine.Name = "lblLine";
             this.lblLine.Size = new System.Drawing.Size(257, 2);
             this.lblLine.TabIndex = 3;
@@ -176,7 +178,7 @@
             // 
             // lblNOTICE
             // 
-            this.lblNOTICE.Location = new System.Drawing.Point(12, 235);
+            this.lblNOTICE.Location = new System.Drawing.Point(12, 265);
             this.lblNOTICE.Name = "lblNOTICE";
             this.lblNOTICE.Size = new System.Drawing.Size(305, 13);
             this.lblNOTICE.TabIndex = 11;
@@ -187,7 +189,7 @@
             // btnStopAll
             // 
             this.btnStopAll.ForeColor = System.Drawing.Color.Red;
-            this.btnStopAll.Location = new System.Drawing.Point(15, 143);
+            this.btnStopAll.Location = new System.Drawing.Point(15, 173);
             this.btnStopAll.Name = "btnStopAll";
             this.btnStopAll.Size = new System.Drawing.Size(275, 23);
             this.btnStopAll.TabIndex = 12;
@@ -198,7 +200,7 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(296, 230);
+            this.btnSettings.Location = new System.Drawing.Point(296, 260);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(21, 23);
             this.btnSettings.TabIndex = 13;
@@ -207,11 +209,36 @@
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
+            // btnEditTitle
+            // 
+            this.btnEditTitle.Location = new System.Drawing.Point(15, 144);
+            this.btnEditTitle.Name = "btnEditTitle";
+            this.btnEditTitle.Size = new System.Drawing.Size(133, 23);
+            this.btnEditTitle.TabIndex = 14;
+            this.btnEditTitle.Text = "Edit Title";
+            this.toolTip1.SetToolTip(this.btnEditTitle, "Edits the title of the currently selected reward.");
+            this.btnEditTitle.UseVisualStyleBackColor = true;
+            this.btnEditTitle.Click += new System.EventHandler(this.btnEditTitle_Click);
+            // 
+            // btnEditSound
+            // 
+            this.btnEditSound.Location = new System.Drawing.Point(154, 144);
+            this.btnEditSound.Name = "btnEditSound";
+            this.btnEditSound.Size = new System.Drawing.Size(136, 23);
+            this.btnEditSound.TabIndex = 15;
+            this.btnEditSound.Text = "Edit Sound";
+            this.toolTip1.SetToolTip(this.btnEditSound, "Opens the file select dialog to change the sound associated with the currently se" +
+        "lected reward.");
+            this.btnEditSound.UseVisualStyleBackColor = true;
+            this.btnEditSound.Click += new System.EventHandler(this.btnEditSound_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(325, 257);
+            this.ClientSize = new System.Drawing.Size(325, 287);
+            this.Controls.Add(this.btnEditSound);
+            this.Controls.Add(this.btnEditTitle);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnStopAll);
             this.Controls.Add(this.lblNOTICE);
@@ -226,8 +253,8 @@
             this.Controls.Add(this.lblVolume);
             this.Controls.Add(this.txtVolume);
             this.Controls.Add(this.trkVolume);
-            this.MaximumSize = new System.Drawing.Size(1000, 296);
-            this.MinimumSize = new System.Drawing.Size(341, 296);
+            this.MaximumSize = new System.Drawing.Size(1000, 326);
+            this.MinimumSize = new System.Drawing.Size(341, 326);
             this.Name = "frmMain";
             this.Text = "Dude22072\'s Channel Points SFX Program";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_OnClosing);
@@ -256,6 +283,8 @@
         private System.Windows.Forms.Button btnStopAll;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnEditTitle;
+        private System.Windows.Forms.Button btnEditSound;
     }
 }
 

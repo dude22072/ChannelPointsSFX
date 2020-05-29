@@ -31,6 +31,7 @@
             this.cbTrayMini = new System.Windows.Forms.CheckBox();
             this.btnResetID = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.lblVersioning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbTrayMini
@@ -38,7 +39,7 @@
             this.cbTrayMini.AutoSize = true;
             this.cbTrayMini.Checked = true;
             this.cbTrayMini.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbTrayMini.Location = new System.Drawing.Point(12, 12);
+            this.cbTrayMini.Location = new System.Drawing.Point(12, 35);
             this.cbTrayMini.Name = "cbTrayMini";
             this.cbTrayMini.Size = new System.Drawing.Size(101, 17);
             this.cbTrayMini.TabIndex = 0;
@@ -48,7 +49,7 @@
             // 
             // btnResetID
             // 
-            this.btnResetID.Location = new System.Drawing.Point(12, 35);
+            this.btnResetID.Location = new System.Drawing.Point(12, 58);
             this.btnResetID.Name = "btnResetID";
             this.btnResetID.Size = new System.Drawing.Size(101, 23);
             this.btnResetID.TabIndex = 1;
@@ -66,12 +67,22 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // lblVersioning
+            // 
+            this.lblVersioning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersioning.Location = new System.Drawing.Point(9, 9);
+            this.lblVersioning.Name = "lblVersioning";
+            this.lblVersioning.Size = new System.Drawing.Size(304, 23);
+            this.lblVersioning.TabIndex = 3;
+            this.lblVersioning.Text = "Channel Points SFX vX.Y.Z Options";
+            // 
             // frmOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(325, 257);
             this.ControlBox = false;
+            this.Controls.Add(this.lblVersioning);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnResetID);
             this.Controls.Add(this.cbTrayMini);
@@ -89,5 +100,6 @@
         private System.Windows.Forms.CheckBox cbTrayMini;
         private System.Windows.Forms.Button btnResetID;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Label lblVersioning;
     }
 }

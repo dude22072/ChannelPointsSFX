@@ -23,6 +23,8 @@ namespace ChannelPointsSFX
         private void frmOptions_Load(object sender, EventArgs e)
         {
             cbTrayMini.Checked = Properties.Settings.Default.minimizeToTray;
+            string ver = typeof(frmOptions).Assembly.GetName().Version.ToString();
+            lblVersioning.Text = "Channel Points SFX v" + (ver.Substring(0,ver.Length-2)) + " Options";
         }
 
         private void btnResetID_Click(object sender, EventArgs e)
