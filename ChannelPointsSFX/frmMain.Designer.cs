@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.trkVolume = new System.Windows.Forms.TrackBar();
             this.txtVolume = new System.Windows.Forms.TextBox();
@@ -106,6 +107,7 @@
             this.lstbxSoundsRewards.Size = new System.Drawing.Size(136, 95);
             this.lstbxSoundsRewards.TabIndex = 4;
             this.lstbxSoundsRewards.SelectedIndexChanged += new System.EventHandler(this.lstbxSoundsRewards_SelectedIndexChanged);
+            this.lstbxSoundsRewards.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstbxSoundsRewards_MouseMove);
             // 
             // lstbxSoundsPaths
             // 
@@ -121,6 +123,7 @@
             this.lstbxSoundsPaths.Size = new System.Drawing.Size(139, 95);
             this.lstbxSoundsPaths.TabIndex = 5;
             this.lstbxSoundsPaths.SelectedIndexChanged += new System.EventHandler(this.lstbxSoundsPaths_SelectedIndexChanged);
+            this.lstbxSoundsPaths.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstbxSoundsPaths_MouseMove);
             // 
             // btnUp
             // 
@@ -253,6 +256,7 @@
             this.Controls.Add(this.lblVolume);
             this.Controls.Add(this.txtVolume);
             this.Controls.Add(this.trkVolume);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1000, 326);
             this.MinimumSize = new System.Drawing.Size(341, 326);
             this.Name = "frmMain";

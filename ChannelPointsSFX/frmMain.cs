@@ -258,6 +258,8 @@ namespace ChannelPointsSFX
                 btnDown.Enabled = false;
                 btnRemove.Enabled = false;
                 btnTest.Enabled = false;
+                btnEditSound.Enabled = false;
+                btnEditTitle.Enabled = false;
             } 
             else
             {
@@ -265,6 +267,8 @@ namespace ChannelPointsSFX
                 btnDown.Enabled = true;
                 btnRemove.Enabled = true;
                 btnTest.Enabled = true;
+                btnEditSound.Enabled = true;
+                btnEditTitle.Enabled = true;
                 lstbxSoundsRewards.SelectedIndex = boxSelection;
                 lstbxSoundsPaths.SelectedIndex = boxSelection;
                 saveBindings();
@@ -314,12 +318,59 @@ namespace ChannelPointsSFX
             lstbxSoundsRewards.SelectedIndex = boxSelection;
         }
 
+        int hoveredIndexRewards = -1;
+        private void lstbxSoundsRewards_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            // See which row is currently under the mouse:
+            int newHoveredIndex = lstbxSoundsRewards.IndexFromPoint(e.Location);
+
+            // If the row has changed since last moving the mouse:
+            if (hoveredIndexRewards != newHoveredIndex)
+            {
+                // Change the variable for the next time we move the mouse:
+                hoveredIndexRewards = newHoveredIndex;
+
+                // If over a row showing data (rather than blank space):
+                if (hoveredIndexRewards > -1)
+                {
+                    //Set tooltip text for the row now under the mouse:
+                    toolTip1.Active = false;
+                    toolTip1.SetToolTip(lstbxSoundsRewards, lstbxSoundsRewards.Items[hoveredIndexRewards].ToString());
+                    toolTip1.Active = true;
+                }
+            }
+        }
+
         /// <summary>
         /// Prevents users from clicking on a listbox item.
         /// </summary>
         private void lstbxSoundsPaths_SelectedIndexChanged(object sender, EventArgs e)
         {
             lstbxSoundsPaths.SelectedIndex = boxSelection;
+        }
+
+        int hoveredIndexPaths = -1;
+        private void lstbxSoundsPaths_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            // See which row is currently under the mouse:
+            int newHoveredIndex = lstbxSoundsPaths.IndexFromPoint(e.Location);
+
+            // If the row has changed since last moving the mouse:
+            if (hoveredIndexPaths != newHoveredIndex)
+            {
+                // Change the variable for the next time we move the mouse:
+                hoveredIndexPaths = newHoveredIndex;
+
+                // If over a row showing data (rather than blank space):
+                if (hoveredIndexPaths > -1)
+                {
+                    //Set tooltip text for the row now under the mouse:
+                    toolTip1.Active = false;
+                    bindings.TryGetValue(lstbxSoundsRewards.Items[hoveredIndexPaths].ToString(), out string fullPath);
+                    toolTip1.SetToolTip(lstbxSoundsPaths, fullPath);
+                    toolTip1.Active = true;
+                }
+            }
         }
 
         /// <summary>
@@ -356,6 +407,7 @@ namespace ChannelPointsSFX
             optionsForm.enSetBut += new ReenableSettingsButton(oFrmOptions_enSetBut);
             optionsForm.StartPosition = FormStartPosition.Manual;
             optionsForm.Location = this.Location;
+            optionsForm.Icon = this.Icon;
             optionsForm.Show();
             btnSettings.Enabled = false;
         }
