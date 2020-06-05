@@ -21,7 +21,7 @@ This should be all you need to know to get started. Any more questions read the 
   
 ## FAQ  
 **Q: I think I put the channel ID in wrong... how do I change it?**  
-A: Make a new text file in the dirrectory of the progam just called "resetid.txt" and the dialog for entering a channel ID will show itself next time you launch the program.  
+A: Press the gear icon in the bottom-right of the main window to open the options window. Click the "Reset ID" button and follow the instructions on screen.
   
 **Q: Do I need the program open while I'm streaming?**  
 A: Yes, the sounds come from the program itself.  
