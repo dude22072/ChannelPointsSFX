@@ -2,6 +2,8 @@
 A program for having sound files play when a user redeems a Channel Points reward on Twitch.
 
 ## Setup
+_If you wish to watch a video instead of reading this feel free to check out [Dekkster's Youtube Video](https://youtu.be/joahZheWURs) on how to set this up._  
+  
 Upon first launch of the program a propmpt will show up asking for your Twtich ChannelID  
 ![Please enter your Twitch ChannelID (THIS IS NOT YOUR USERNAME)](https://i.imgur.com/gS5W1Pg.png)  
 As the image says if you do not know your ID you may use https://dude22072.com/twitchchannelid.php to find it.  
