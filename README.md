@@ -30,3 +30,6 @@ A: Yes, the sounds come from the program itself.
   
 **Q: How will the sounds come through on OBS?**  
 A: Desktop Audio  
+  
+**Q: Do I need to hide or protect my Channel ID?**  
+A: No. Think of your Channel ID almost like a 2nd username that Twitch uses to always be able to know who you are even if you change your actual username. Nobody can do anything to your account just by having your Channel ID.
